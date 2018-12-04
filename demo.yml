@@ -1,0 +1,48 @@
+--- 
+  - name: Test various things
+    hosts: test3
+    become: yes
+
+    vars:
+      ansible_ssh_private_key_file: ~/.ssh/id_testkey
+      #      ansible_python_interpreter: /usr/bin/python3
+      password: $6$FasiqEHXYBA.b8Ui$iGgfyCOmrhlasP8mcVK4cqKfc9bVfQ2bH1XrdCu9Werz1srcLB0f6NAE8xTax4D9gujyz7K1KoYHc.H8faJY10
+    tasks:
+    - name: Create a group
+      group:
+        name: testgroup
+        state: present
+    - name: Create a user
+      user:
+        name: testuser
+        shell: /bin/bash
+        group: testgroup
+        state: present
+        create_home: true
+        password: "{{ password }}"      # test
+    
+    - name: Install apache2
+      apt:
+        name: apache2
+        update_cache: true
+    - name: Start apache2 service
+      service:
+        name: apache2
+        enabled: yes
+        state: started
+    - name: Install shellshock vulnerable version of bash
+      apt:
+        deb: https://mirror.ip-projects.de/ubuntu-old/pool/main/b/bash/bash_4.2-0ubuntu3_i386.deb
+        force: yes
+    - name: Installing shellshock vulnerable website
+      unarchive:
+        src: bar.tar.gz
+        dest: /var/www/
+        owner: www-data
+
+
+
+
+    
+                  
+                       

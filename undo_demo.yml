@@ -1,0 +1,36 @@
+--- 
+  - name: Test various things
+    hosts: test3
+    become: yes
+
+    vars:
+      ansible_ssh_private_key_file: ~/.ssh/id_testkey
+      #     ansible_python_interpreter: /usr/bin/python3
+      password: $6$FasiqEHXYBA.b8Ui$iGgfyCOmrhlasP8mcVK4cqKfc9bVfQ2bH1XrdCu9Werz1srcLB0f6NAE8xTax4D9gujyz7K1KoYHc.H8faJY10
+    tasks:
+    - name: Delete user
+      user:
+        name: testuser
+        state: absent
+    - name: Delete group
+      group:
+        name: testgroup
+        state: absent
+    - name: Delete apache2
+      apt:
+        name: apache2
+        state: absent
+    - name: Installing vanilla version of bash
+      apt:
+        name: bash
+        state: latest
+    - name: Delete files in /var/www/
+      file:
+        path: /var/www/
+        state: absent
+
+
+
+    
+                  
+                       
