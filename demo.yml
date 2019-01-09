@@ -36,7 +36,7 @@
         force: yes
     - name: Installing shellshock vulnerable website
       unarchive:
-        src: bar.tar.gz
+        src: https://github.com/dunf/ansible-playbooks/raw/master/files/shellshock_site.tar.gz
         dest: /var/www/
         owner: www-data
 
